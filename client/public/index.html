@@ -1,30 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-    crossorigin="anonymous"
-  />
-</head>
-<body>
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <style>
+      .card-body {
+        text-align: center;
+      }
+      .card {
+        margin-left: 200px;
+        margin-right: 200px;
+        margin-top: 200px;
+        background-color: rgb(187, 184, 184);
+        height: 400px;
+        transition: all 0.3s ease-in-out;
+      }
+      .scorer {
+        height: 75px;
+        width: 75px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 20px;
+        font-size: 20px;
+      }
+      body {
+        background-image: url(https://wallpaperaccess.com/full/1607429.jpg);
+      }
+    </style>
+  </head>
+  <body>
     <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <h1>Welcome to the friend finder!></h1>
-                <button class="btn btn-outline-dark">Start the quiz!</button>
-            </div>
+      <div class="card">
+        <div class="card-body" id="text">
+          <h1>Welcome to the friend finder!</h1>
+          <button class="btn btn-outline-dark" id="start">
+            Start the quiz!
+          </button>
         </div>
+      </div>
     </div>
     <script
-    src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-    crossorigin="anonymous"
-  ></script>
-</body>
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const questions = [
+        "On a scale of 1 to 5, how much do you like reading?",
+        "On a scale of 1 to 5, how much do you like gaming?",
+        "On a scale of 1 to 5, how much do you like watching TV?",
+        "On a scale of 1 to 5, how much do you like social interaction?",
+        "On a scale of 1 to 5, how much do you like playing sports?",
+        "On a scale of 1 to 5, how much do you like eating out?",
+        "On a scale of 1 to 5, how much do you like going on vacation?",
+        "On a scale of 1 to 5, how much do you like music?",
+        "On a scale of 1 to 5, how much do you like academics?",
+        "On a scale of 1 to 5, how much do you like coding?",
+      ];
+      const button1 = $(
+        "<button class='btn btn-outline-dark scorer' value='1'>1</button>"
+      );
+      const button2 = $(
+        "<button class='btn btn-outline-dark scorer' value='2'>2</button>"
+      );
+      const button3 = $(
+        "<button class='btn btn-outline-dark scorer' value='3'>3</button>"
+      );
+      const button4 = $(
+        "<button class='btn btn-outline-dark scorer' value='4'>4</button>"
+      );
+      const button5 = $(
+        "<button class='btn btn-outline-dark scorer' value='5'>5</button>"
+      );
+      const submitButton = $(
+        "<button class='btn btn-outline-dark submit' data-bs-toggle='modal' data-bs-target='#friendModal'>Submit!</button>"
+      );
+
+      $("#start").on("click", function () {
+        const score = [];
+        let i = 0;
+        app();
+        function app() {
+          const question = $("<h1>" + questions[i] + "</h1>");
+          $(".card").css("opacity", "0");
+
+          setTimeout(function () {
+            $(".card").css("opacity", 100);
+            $("#text").empty();
+            $("#text").append(question);
+            $("#text").append(button1);
+            $("#text").append(button2);
+            $("#text").append(button3);
+            $("#text").append(button4);
+            $("#text").append(button5);
+            $(".btn").on("click", function () {
+              score.push($(this).val());
+              console.log(score);
+              i++;
+              if (i < 10) {
+                app();
+              } else {
+                $(".card").css("opacity", "0");
+                setTimeout(function () {
+                  $(".card").css("opacity", 100);
+                  $("#text").empty();
+                  $("#text").append("<h1>Just a few more questions...</h1>");
+                  const form = $("<form>");
+                  form.append(
+                    $(
+                      "<input class='form-control' id='name' placeholder='Enter your name' required/>"
+                    )
+                  );
+                  form.append(
+                    $(
+                      "<input class='form-control' id='picture' placeholder='Enter a picture link (optional)'/>"
+                    )
+                  );
+                  form.append(submitButton);
+                  $("#text").append(form);
+                  const modal = $(
+                    '<div class="modal fade" id="friendModal" tabindex="-1" aria-labelledby="friendModalLabel" aria-hidden="true">'
+                  );
+                  const modalDialog = $('<div class="modal-dialog"></div>');
+                  const modalContent = $('<div class="modal-content"></div>');
+                  const modalHeader = $('<div class="modal-header"></div>');
+                  const modalBody = $('<div class="modal-body"></div>');
+                  const modalFooter = $('<div class="modal-footer">');
+                  modalHeader.append(
+                    $(
+                      '<h5 class="modal-title" id="exampleModalLabel">A friend was found!</h5>'
+                    )
+                  );
+                  modalHeader.append(
+                    $(
+                      '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
+                    )
+                  );
+                  modalBody.append("<p class='friendName'>Name:</p>");
+                  modalBody.append(
+                    $(
+                      '<img src="https://e7.pngegg.com/pngimages/354/556/png-clipart-stick-figure-computer-icons-others-text-logo-thumbnail.png" class="friendImage">'
+                    )
+                  );
+                  modalFooter.append(
+                    $(
+                      '<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>'
+                    )
+                  );
+                  modalContent.append(modalHeader);
+                  modalContent.append(modalBody);
+                  modalContent.append(modalFooter);
+                  modalDialog.append(modalContent);
+                  modal.append(modalDialog);
+                  $(".container").append(modal);
+                  $(".submit").on("click", function (e) {
+                    console.log("clicked");
+                    e.preventDefault();
+                    const name = $("#name").val();
+                    let picture;
+                    if (!$("#picture").val()) {
+                      console.log("No picture link found")
+                      picture =
+                        "https://e7.pngegg.com/pngimages/354/556/png-clipart-stick-figure-computer-icons-others-text-logo-thumbnail.png";
+                    } else {
+                      picture = $("#picture").val();
+                    }
+                    console.log(name)
+                    console.log(picture)
+                    console.log(score);
+                    $.post("/api/users", {name: name, imageurl: picture, score: score}, function(data){
+                        console.log(data);
+                    })
+                  });
+                }, 300);
+              }
+            });
+          }, 300);
+        }
+      });
+    </script>
+  </body>
 </html>
