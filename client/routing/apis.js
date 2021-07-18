@@ -14,7 +14,7 @@ module.exports = function(app){
         userData.forEach(function(e){
             let difference = 0;
             for(let i = 0; i<10; i++){
-                difference += parseInt(e.score[i]) - parseInt(req.body.score[i]);
+                difference += Math.abs(parseInt(e.score[i]) - parseInt(req.body.score[i]));
             }
             if(difference < smallestDifference){
                 smallestDifference = difference;

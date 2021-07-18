@@ -34,6 +34,26 @@
       body {
         background-image: url(https://wallpaperaccess.com/full/1607429.jpg);
       }
+      @media screen and (max-width: 1000px){
+        .scorer{
+          height:50px;
+          width:50px;
+        } 
+        h1{
+          font-size:25px;
+        }
+        .card{
+          margin-left:50px;
+          margin-right:50px;
+        }
+        img{
+          width:200px;
+        }
+        modal{
+          width:250px;
+          height:400px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -149,7 +169,7 @@
                       '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
                     )
                   );
-                  modalBody.append("<p class='friendName'>Name:</p>");
+                  modalBody.append("<h4 class='friendName'>Name:</h4>");
                   modalBody.append(
                     $(
                       '<img src="https://e7.pngegg.com/pngimages/354/556/png-clipart-stick-figure-computer-icons-others-text-logo-thumbnail.png" class="friendImage">'
@@ -157,7 +177,7 @@
                   );
                   modalFooter.append(
                     $(
-                      '<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>'
+                      '<a href="/"><button type="button" class="btn btn-outline-dark restart">Restart the quiz!</button></a>'
                     )
                   );
                   modalContent.append(modalHeader);
@@ -182,7 +202,8 @@
                     console.log(picture)
                     console.log(score);
                     $.post("/api/users", {name: name, imageurl: picture, score: score}, function(data){
-                        console.log(data);
+                        $(".friendName").text(data.name);
+                        $(".friendImage").attr("src", data.imageurl);
                     })
                   });
                 }, 300);
